@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake VS</title>
+    <style>
+      td {
+        text-align:center;
+        height: 20px;
+        width: 10px;
+        border: 1px solid grey;
+        
+      }
+      th{
+        border: 1px solid black;
+      }
+      
+      div{
+        border-radius: 2px;
+        text-align:center;
+        border: 1px solid grey;
+        vertical-align:middle;
+        position: relative;
+        display:inline-block;
+        float: left;
+        }
+      
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+      //Global Variables
+      var rate = 200;
+      var apple = "<font color='red'>&#9679</font>"
+      var heart = "<font color='red'>&#9829 </font>"
+      var orange = "<font color='orange' size='2'>&#9677</font>"
+
+      //Snake1 Variables
+      var mark = '<font color="black">&#x25a0</font>';
+      var currentSnake = [[1,3],[1,2],[1,1]];
+      var lastMove = "right";
+      var movingRight;
+      var movingLeft;
+      var movingUp;
+      var movingDown;
+      var name1 = prompt("What is Player1's name?","Player 1");
+      var hp1 = 3
+
+      //Snake2 Variables
+      var mark2 = '<font color="blue">&#x25a0</font>';
+      var currentSnake2 = [[18,16],[18,17],[18,18]];
+      var lastMove2 = "left";
+      var lastKey2 = 0;
+      var movingRight2;
+      var movingLeft2;
+      var movingUp2;
+      var movingDown2;
+      var name2 = prompt("What is Player2's name?","Player 2");
+      var hp2 = 3
+
+      
+      //Draw an array of coor with inputed string
+      function drawSnake(arr,str){
+        for(i=0;i<arr.length;i++){
+            var x = arr[i][0];
+            var y = arr[i][1];
+            var coor = "#"+x+"x>#"+y+"c"
+            $(coor).html(str);
+        }
+      }
+      
+      //move snake to the right
+      function moveRight(){
+        var x = currentSnake[0][0];
+        var y = currentSnake[0][1];
+        var newSnake = [[x,y+1]];
+        
+        for (i=0;i<currentSnake.length-1;i++){
+            newSnake.push([currentSnake[i][0],currentSnake[i][1]]);
+        };
+        
+        
+        if(hitWall(newSnake)==''){
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+        } else if (hitWall(newSnake)=='apple'){
+            newSnake.push([currentSnake[currentSnake.length-1][0],currentSnake[currentSnake.length-1][1]])
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+            generateFruit();
+        }
+      }
+
+      //move snake2 to the right
+      function moveRight2(){
+        var x = currentSnake2[0][0];
+        var y = currentSnake2[0][1];
+        var newSnake = [[x,y+1]];
+        
+        for (i=0;i<currentSnake2.length-1;i++){
+            newSnake.push([currentSnake2[i][0],currentSnake2[i][1]]);
+        };
+        
+        
+        if(hitWall2(newSnake)==''){
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+        } else if (hitWall2(newSnake)=='apple'){
+            newSnake.push([currentSnake2[currentSnake2.length-1][0],currentSnake2[currentSnake2.length-1][1]])
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+            generateFruit();
+        }
+      }
+      
+      //move snake2 to the right
+      function moveDown2(){
+        var x = currentSnake2[0][0];
+        var y = currentSnake2[0][1];
+        var newSnake = [[x+1,y]];
+        
+        for (i=0;i<currentSnake2.length-1;i++){
+            newSnake.push([currentSnake2[i][0],currentSnake2[i][1]]);
+        };
+        
+        
+        if(hitWall2(newSnake)==''){
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+        } else if (hitWall2(newSnake)=='apple'){
+            newSnake.push([currentSnake2[currentSnake2.length-1][0],currentSnake2[currentSnake2.length-1][1]])
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+            generateFruit();
+        }
+      }
+
+      //move snake2 to the right
+      function moveLeft2(){
+        var x = currentSnake2[0][0];
+        var y = currentSnake2[0][1];
+        var newSnake = [[x,y-1]];
+        
+        for (i=0;i<currentSnake2.length-1;i++){
+            newSnake.push([currentSnake2[i][0],currentSnake2[i][1]]);
+        };
+        
+        
+        if(hitWall2(newSnake)==''){
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+        } else if (hitWall2(newSnake)=='apple'){
+            newSnake.push([currentSnake2[currentSnake2.length-1][0],currentSnake2[currentSnake2.length-1][1]])
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+            generateFruit();
+        }
+      }
+
+      //move snake2 to the right
+      function moveUp2(){
+        var x = currentSnake2[0][0];
+        var y = currentSnake2[0][1];
+        var newSnake = [[x-1,y]];
+        
+        for (i=0;i<currentSnake2.length-1;i++){
+            newSnake.push([currentSnake2[i][0],currentSnake2[i][1]]);
+        };
+        
+        
+        if(hitWall2(newSnake)==''){
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+        } else if (hitWall2(newSnake)=='apple'){
+            newSnake.push([currentSnake2[currentSnake2.length-1][0],currentSnake2[currentSnake2.length-1][1]])
+            drawSnake(currentSnake2,'');
+            drawSnake(newSnake,mark2);
+            currentSnake2 = newSnake;
+            generateFruit();
+        }
+      }
+      
+      
+      //move snake to the down
+      function moveDown(){
+        var x = currentSnake[0][0];
+        var y = currentSnake[0][1];
+        var newSnake = [[x+1,y]];
+        
+        for (i=0;i<currentSnake.length-1;i++){
+            newSnake.push([currentSnake[i][0],currentSnake[i][1]]);
+        };
+        
+        
+        if(hitWall(newSnake)==''){
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+        } else if (hitWall(newSnake)=='apple'){
+            newSnake.push([currentSnake[currentSnake.length-1][0],currentSnake[currentSnake.length-1][1]])
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+            generateFruit();
+        }
+      }
+      
+      //move snake to the Up
+      function moveUp(){
+        var x = currentSnake[0][0];
+        var y = currentSnake[0][1];
+        var newSnake = [[x-1,y]];
+        
+        for (i=0;i<currentSnake.length-1;i++){
+            newSnake.push([currentSnake[i][0],currentSnake[i][1]]);
+        };
+        
+        
+        if(hitWall(newSnake)==''){
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+        } else if (hitWall(newSnake)=='apple'){
+            newSnake.push([currentSnake[currentSnake.length-1][0],currentSnake[currentSnake.length-1][1]])
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+            generateFruit();
+        }
+        
+      }
+      
+      
+      //move snake to left
+      function moveLeft(){
+        var x = currentSnake[0][0];
+        var y = currentSnake[0][1];
+        var newSnake = [[x,y-1]];
+        
+        for (i=0;i<currentSnake.length-1;i++){
+            newSnake.push([currentSnake[i][0],currentSnake[i][1]]);
+        };
+        
+       
+        
+        if(hitWall(newSnake)==''){
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+        } else if (hitWall(newSnake)=='apple'){
+            newSnake.push([currentSnake[currentSnake.length-1][0],currentSnake[currentSnake.length-1][1]])
+            drawSnake(currentSnake,'');
+            drawSnake(newSnake,mark);
+            currentSnake = newSnake;
+            generateFruit();
+        }
+      }
+      
+      
+      //return if hit wall, apple, or nothing
+      function hitWall(arr){
+        var a = arr[0][0];
+        var b = arr[0][1];
+        var coor = "#"+a+"x>#"+b+"c";
+        var value;
+        
+        if(typeof $(coor).html() == "string") {
+            value = $(coor).html().slice(13,16);
+            console.log(value);
+        }
+        
+        if(value=="red"){ 
+          
+          return "apple";
+          
+        
+        } else if(value=="blu"){
+            hp1--;
+            displayHP(hp1,'#HP1');
+            if(hp1<1){
+              currentSnake = [];
+          
+              $("#HP1").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
+        
+        
+              clearInterval(movingRight);
+              clearInterval(movingUp);
+              clearInterval(movingDown);
+              clearInterval(movingLeft);
+          
+              return 'dead';
+          } 
+        } else if(value=="ora"){
+            if(hp1<5){
+              hp1++;
+              displayHP(hp1,'#HP1');
+            }
+            generateFruit();
+        } else if($(coor).html()!=''){
+            currentSnake = [];
+          
+        $("#HP1").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
+        
+        
+        clearInterval(movingRight);
+        clearInterval(movingUp);
+        clearInterval(movingDown);
+        clearInterval(movingLeft);
+          
+        return 'wall';
+        }
+        
+        return "";
+        
+      }
+
+      //return if hit wall, apple, or nothing
+      function hitWall2(arr){
+        var a = arr[0][0];
+        var b = arr[0][1];
+        var coor = "#"+a+"x>#"+b+"c";
+        var value;
+        
+        if(typeof $(coor).html() == "string") {
+            value = $(coor).html().slice(13,16);
+            console.log(value);
+        }
+        
+        if(value=="red"){ 
+          
+          return "apple";
+          
+        
+        } else if(value=="bla"){
+          hp2--;
+          displayHP(hp2,'#HP2');
+          if(hp2<1){
+            currentSnake2 = [];
+          
+          $("#HP2").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
+        
+        
+          clearInterval(movingRight2);
+          clearInterval(movingUp2);
+          clearInterval(movingDown2);
+          clearInterval(movingLeft2);
+          
+          return 'dead';
+        }
+        } else if(value=="ora"){
+            if(hp1<5){
+              hp1++;
+              displayHP(hp1,'#HP1');
+            }
+            generateFruit();
+        } else if($(coor).html()!=''){
+            currentSnake2 = [];
+          
+          $("#HP2").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
+        
+        
+        clearInterval(movingRight2);
+        clearInterval(movingUp2);
+        clearInterval(movingDown2);
+        clearInterval(movingLeft2);
+          
+        return 'wall';
+        }
+        
+        return "";
+        
+      }
+      
+      //Generate snake fruit on empty spot
+      function generateFruit() {
+        var empty = [];
+        var fruitprob = Math.floor(Math.random()*2);
+
+        for(i=0;i<20;i++){
+          for(j=0;j<20;j++){
+            var coor = "#"+i+"x>#"+j+"c";
+            if($(coor).html()==''){
+                empty.push([i,j]);
+            }
+            
+          }
+        }
+        
+        var prob = Math.floor(Math.random()*empty.length);
+        var x = empty[prob][0];
+        var y = empty[prob][1];
+        coor = "#"+x+"x>#"+y+"c";
+
+        switch (fruitprob){
+          case 0:
+            $(coor).html(apple);
+            break;
+          case 1:
+            $(coor).html(orange);
+            break;
+        }
+      }
+
+      //Display health
+      function displayHP(num,str){
+        var hpstring = '';
+        for(i=0;i<num;i++){
+          hpstring+=heart;
+        }
+
+        $(str).html(hpstring)
+
+      }
+      
+      //execute movement when arrow key is pressed
+      $(document).ready(function(){
+        $("body").keydown(function(e){
+        // left arrow
+            if ((e.keyCode || e.which) == 37 && lastMove!='right'){   
+                clearInterval(movingLeft);
+                moveLeft();
+                movingLeft = setInterval(function(){
+                    moveLeft();
+                },rate);
+                lastMove = "left"
+                clearInterval(movingRight);
+                clearInterval(movingUp);
+                clearInterval(movingDown);
+
+            }
+        // right arrow
+            if ((e.keyCode || e.which) == 39 && lastMove!='left'){
+                //continuously move snake to right
+                clearInterval(movingRight)
+                moveRight();
+                movingRight = setInterval(function(){
+                    moveRight();
+                },rate);
+                lastMove = 'right'
+                
+                clearInterval(movingLeft);
+                clearInterval(movingUp);
+                clearInterval(movingDown);
+            }
+        
+        // down arrow
+            if ((e.keyCode || e.which) == 40&&lastMove!='up'){
+                clearInterval(movingDown)
+                moveDown();
+                movingDown = setInterval(function(){
+                    moveDown();
+                },rate);
+                lastMove = 'down'
+              
+                clearInterval(movingRight);
+                clearInterval(movingLeft);
+                clearInterval(movingUp);
+            }
+          // UP arrow
+            if ((e.keyCode || e.which) == 38&& lastMove!='down'){
+                clearInterval(movingUp)
+                moveUp();
+                movingUp = setInterval(function(){
+                    moveUp();
+                },rate);
+                lastMove = 'up'
+              
+                clearInterval(movingRight);
+                clearInterval(movingLeft);
+                clearInterval(movingDown);
+            }
+            // A arrow
+            if ((e.keyCode || e.which) == 65 && lastMove2!='right'){   
+                clearInterval(movingLeft2);
+                moveLeft2();
+                movingLeft2 = setInterval(function(){
+                    moveLeft2();
+                },rate);
+                lastMove2 = "left"
+                clearInterval(movingRight2);
+                clearInterval(movingUp2);
+                clearInterval(movingDown2);
+
+            }
+        // D arrow
+            if ((e.keyCode || e.which) == 68 && lastMove2!='left'){
+                //continuously move snake to right
+                clearInterval(movingRight2)
+                moveRight2();
+                movingRight2 = setInterval(function(){
+                    moveRight2();
+                },rate);
+                lastMove2 = 'right'
+                
+                clearInterval(movingLeft2);
+                clearInterval(movingUp2);
+                clearInterval(movingDown2);
+            }
+        
+        // S arrow
+            if ((e.keyCode || e.which) == 83&&lastMove2!='up'){
+                clearInterval(movingDown2)
+                moveDown2();
+                movingDown2 = setInterval(function(){
+                    moveDown2();
+                },rate);
+                lastMove2 = 'down'
+              
+                clearInterval(movingRight2);
+                clearInterval(movingLeft2);
+                clearInterval(movingUp2);
+            }
+          // W arrow
+            if ((e.keyCode || e.which) == 87&& lastMove2!='down'){
+                clearInterval(movingUp2)
+                moveUp2();
+                movingUp2 = setInterval(function(){
+                    moveUp2();
+                },rate);
+                lastMove2 = 'up'
+              
+                clearInterval(movingRight2);
+                clearInterval(movingLeft2);
+                clearInterval(movingDown2);
+            }
+            
+         
+        })
+      });
+      
+      
+      
+      
+    </script>
+  </head>
+  <body>
+    <div id="snake1" style="margin: 2px 5px 0px 0px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey; float:left">
+      <font size='5' color="grey"><p id='name1' style="margin:14px 0px 0px 0px">Snake 1</p></font>
+      <font color="RED" size='5'><p id='HP1' style="margin:14px 0px 0px 0px"></p></font>
+    </div>
+    <div id="snake2" style="margin: -152px 5px 0px 658px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey; float:top">
+      <font size='5' color="grey"><p id='name2' style="margin:14px 0px 0px 0px">Snake 2</p></font>
+      <font color="RED" size='5'><p id='HP2' style="margin:14px 0px 0px 0px"></p></font>
+    </div></div>  
+
+    <table border="0" style="width:500px; margin: -154px 5px 0px 155px; float:left;" bgcolor="">
+      <tr id='0x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='1x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='2x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='3x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='4x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='5x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='6x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='7x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='8x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='9x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='10x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='11x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='12x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='13x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='14x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='15x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='16x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='17x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='18x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+      <tr id='19x'>
+        <td id='0c'></td>
+        <td id='1c'></td>
+        <td id='2c'></td>
+        <td id='3c'></td>
+        <td id='4c'></td>
+        <td id='5c'></td>
+        <td id='6c'></td>
+        <td id='7c'></td>
+        <td id='8c'></td>
+        <td id='9c'></td>
+        <td id='10c'></td>
+        <td id='11c'></td>
+        <td id='12c'></td>
+        <td id='13c'></td>
+        <td id='14c'></td>
+        <td id='15c'></td>
+        <td id='16c'></td>
+        <td id='17c'></td>
+        <td id='18c'></td>
+        <td id='19c'></td>
+      </tr>
+     
+      
+      
+    </table>
+    
+    
+    <script>
+      drawSnake(currentSnake,mark);
+      generateFruit();  
+      drawSnake(currentSnake2,mark2);
+      displayHP(hp1,'#HP1');
+      displayHP(hp2,'#HP2');
+      
+
+      //replace name
+      $('#name1').html(name1);
+      $('#name2').html(name2);
+      
+    </script>
+   
+    
+  </body>
+</html>
