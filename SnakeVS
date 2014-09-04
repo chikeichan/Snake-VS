@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake VS</title>
+    <title>Snake</title>
     <style>
       td {
         text-align:center;
@@ -542,16 +542,13 @@
     </script>
   </head>
   <body>
-    <div id="snake1" style="margin: 2px 5px 0px 0px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey; float:left">
+    <div id="snake1" style="margin: 0px 5px 0px 0px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey;">
       <font size='5' color="grey"><p id='name1' style="margin:14px 0px 0px 0px">Snake 1</p></font>
       <font color="RED" size='5'><p id='HP1' style="margin:14px 0px 0px 0px"></p></font>
     </div>
-    <div id="snake2" style="margin: -152px 5px 0px 658px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey; float:top">
-      <font size='5' color="grey"><p id='name2' style="margin:14px 0px 0px 0px">Snake 2</p></font>
-      <font color="RED" size='5'><p id='HP2' style="margin:14px 0px 0px 0px"></p></font>
-    </div></div>  
+    
 
-    <table border="0" style="width:500px; margin: -154px 5px 0px 155px; float:left;" bgcolor="">
+    <table border="0" style="width:500px; margin: 0px 0px 0px 0px;" bgcolor="">
       <tr id='0x'>
         <td id='0c'></td>
         <td id='1c'></td>
@@ -996,6 +993,10 @@
       
       
     </table>
+    <div id="snake2" style="margin: -522px 0px 0px 663px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey;">
+      <font size='5' color="grey"><p id='name2' style="margin:14px 0px 0px 0px">Snake 2</p></font>
+      <font color="RED" size='5'><p id='HP2' style="margin:14px 0px 0px 0px"></p></font>
+    </div></div>  
     
     
     <script>
