@@ -33,6 +33,7 @@
       var apple = "<font color='red'>&#9679</font>"
       var heart = "<font color='red'>&#9829 </font>"
       var orange = "<font color='orange' size='2'>&#9677</font>"
+      var star =   "<font id='thestar' color='gold' size='1'>&#9733</font>"
 
       //Snake1 Variables
       var mark = '<font color="black">&#x25a0</font>';
@@ -43,7 +44,8 @@
       var movingUp;
       var movingDown;
       var name1 = prompt("What is Player1's name?","Player 1");
-      var hp1 = 3
+      var hp1 = 3;
+      var state ='';
 
       //Snake2 Variables
       var mark2 = '<font color="blue">&#x25a0</font>';
@@ -56,6 +58,7 @@
       var movingDown2;
       var name2 = prompt("What is Player2's name?","Player 2");
       var hp2 = 3
+      var state2 ='';
 
       
       //Draw an array of coor with inputed string
@@ -282,7 +285,7 @@
           return "apple";
           
         
-        } else if(value=="blu"){
+        } else if(value=="blu"&&state!='star'){
             hp1--;
             displayHP(hp1,'#HP1');
             if(hp1<1){
@@ -298,13 +301,39 @@
           
               return 'dead';
           } 
-        } else if(value=="ora"){
+        } else if(value=="blu"&&state=='star'){
+            hp2--;
+            displayHP(hp2,'#HP2');
+            if(hp2<1){
+              currentSnake2 = [];
+          
+              $("#HP2").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
+        
+        
+              clearInterval(movingRight2);
+              clearInterval(movingUp2);
+              clearInterval(movingDown2);
+              clearInterval(movingLeft2);
+          
+          } 
+        }else if(value=="ora"){
             if(hp1<5){
               hp1++;
               displayHP(hp1,'#HP1');
             }
             generateFruit();
-        } else if($(coor).html()!=''){
+        } else if(value=="sta"){
+            mark = '<font color="gold">&#x25a0</font>'
+            state = 'star'
+            setTimeout(function(){
+              mark = '<font color="black">&#x25a0</font>'
+              drawSnake(currentSnake,mark);
+              state = ''
+            },5000)
+            generateFruit();
+        } else if($(coor).html()!=''&&state=="star"){
+            return 'thru'
+        } else if($(coor).html()!=''&&state!="star"){
             currentSnake = [];
           
         $("#HP1").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
@@ -339,7 +368,7 @@
           return "apple";
           
         
-        } else if(value=="bla"){
+        } else if(value=="bla"&&state2!='star'){
           hp2--;
           displayHP(hp2,'#HP2');
           if(hp2<1){
@@ -355,13 +384,39 @@
           
           return 'dead';
         }
+        }else if(value=="bla"&&state2=='star'){
+            hp1--;
+            displayHP(hp1,'#HP1');
+            if(hp1<1){
+              currentSnake = [];
+          
+              $("#HP1").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
+        
+        
+              clearInterval(movingRight);
+              clearInterval(movingUp);
+              clearInterval(movingDown);
+              clearInterval(movingLeft);
+          
+          } 
         } else if(value=="ora"){
-            if(hp1<5){
-              hp1++;
-              displayHP(hp1,'#HP1');
+            if(hp2<5){
+              hp2++;
+              displayHP(hp2,'#HP2');
             }
             generateFruit();
-        } else if($(coor).html()!=''){
+        } else if(value=="sta"){
+             mark2 = '<font color="gold">&#x25a0</font>'
+             state2 = 'star'
+             setTimeout(function(){
+             mark2 = '<font color="blue">&#x25a0</font>'
+             drawSnake(currentSnake2,mark2);
+             state2 = ''
+            },5000)
+            generateFruit();
+        }else if($(coor).html()!=''&&state2=="star"){
+            return 'thru'
+        } else if($(coor).html()!=''&&state2!='star'){
             currentSnake2 = [];
           
           $("#HP2").html('<p style="margin:14px 0px 0px 0px">GAME OVER</p>');
@@ -382,7 +437,7 @@
       //Generate snake fruit on empty spot
       function generateFruit() {
         var empty = [];
-        var fruitprob = Math.floor(Math.random()*2);
+        var fruitprob = Math.floor(Math.random()*3);
 
         for(i=0;i<20;i++){
           for(j=0;j<20;j++){
@@ -405,6 +460,9 @@
             break;
           case 1:
             $(coor).html(orange);
+            break;
+          case 2:
+            $(coor).html(star);
             break;
         }
       }
@@ -996,7 +1054,77 @@
     <div id="snake2" style="margin: -522px 0px 0px 663px; height: 150px; color=grey; width: 150px; background-color:; border:1px Solid grey;">
       <font size='5' color="grey"><p id='name2' style="margin:14px 0px 0px 0px">Snake 2</p></font>
       <font color="RED" size='5'><p id='HP2' style="margin:14px 0px 0px 0px"></p></font>
-    </div></div>  
+    </div>
+
+    <div style="margin: -365px 0px 0px 663px; height: 360px; color=grey; width: 150px; background-color:; border:1px Solid grey;">
+      <br>
+      <font color='grey' size='2'>
+      <table align="center">
+      <tr>
+        <td style="border: 0px solid white; width: 18px;"></td>
+        <td style="width: 18px;">W</td>
+        <td style="border: 0px solid white;width: 18px;"></td>
+      </tr>
+      <tr>
+        <td style="width: 18px;">A</td>
+        <td style="width: 18px;">S</td>
+        <td style="width: 18px;">D</td>
+      </tr>
+      </table>
+      MOVEMENT
+      <br>
+      <br>
+      <table align="center" style="border: 0px solid white;">
+      <tr>
+        <td style="border: 0px solid white;width: 18px; height: 40px"><font color='red' size = '6'>&#9679</font></td>
+        <td style="border: 0px solid white;width: 100px;">Add 1 block</td>
+      </tr>
+      <tr>
+        <td style="border: 0px solid white;width: 18px;height: 40px"><font color='orange' size='5'>&#9677</font></td>
+        <td style="border: 0px solid white;width: 100px;">Add 1 HP</td>
+      </tr>
+      <tr>
+        <td style="border: 0px solid white;width: 18px;height: 40px"><font id='thestar' color='gold' size='4'>&#9733</font></td>
+        <td style="border: 0px solid white;width: 100px;">Star Mode</td>
+      </tr>
+      </table>
+    </font>
+    </div>
+
+    <div style="margin: -365px 0px 0px 0px; height: 360px; color=grey; width: 150px; background-color:; border:1px Solid grey;">
+      <br>
+      <font color='grey' size='2'>
+      <table align="center">
+      <tr>
+        <td style="border: 0px solid white; width: 18px;"></td>
+        <td style="width: 18px;">&#8593</td>
+        <td style="border: 0px solid white;width: 18px;"></td>
+      </tr>
+      <tr>
+        <td style="width: 18px;">&#8592</td>
+        <td style="width: 18px;">&#8595</td>
+        <td style="width: 18px;">&#8594</td>
+      </tr>
+      </table>
+      MOVEMENT
+      <br>
+      <br>
+      <table align="center" style="border: 0px solid white;">
+      <tr>
+        <td style="border: 0px solid white;width: 18px; height: 40px"><font color='red' size = '6'>&#9679</font></td>
+        <td style="border: 0px solid white;width: 100px;">Add 1 block</td>
+      </tr>
+      <tr>
+        <td style="border: 0px solid white;width: 18px;height: 40px"><font color='orange' size='5'>&#9677</font></td>
+        <td style="border: 0px solid white;width: 100px;">Add 1 HP</td>
+      </tr>
+      <tr>
+        <td style="border: 0px solid white;width: 18px;height: 40px"><font id='thestar' color='gold' size='4'>&#9733</font></td>
+        <td style="border: 0px solid white;width: 100px;">Star Mode</td>
+      </tr>
+      </table>
+    </font>
+    </div>
     
     
     <script>
